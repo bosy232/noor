@@ -1,0 +1,18 @@
+---
+import { languages } from '../i18n/ui';
+
+const { lang } = Astro.props;
+---
+
+<div class="relative inline-block text-left">
+  <select
+    class="bg-white text-primary px-4 py-2 rounded-md hover:bg-gray-100 transition cursor-pointer"
+    onchange="window.location.href = this.value"
+  >
+    {Object.entries(languages).map(([code, name]) => (
+      <option value={`/${code}`} selected={code === lang}>
+        {name}
+      </option>
+    ))}
+  </select>
+</div>

@@ -1,0 +1,87 @@
+---
+import '@fontsource-variable/inter';
+import LanguageSelector from '../components/LanguageSelector.astro';
+import { ui } from '../i18n/ui';
+
+interface Props {
+  title: string;
+  lang?: string;
+}
+
+const { title, lang = 'en' } = Astro.props;
+const t = ui[lang];
+---
+
+<!doctype html>
+<html lang={lang} class="scroll-smooth" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Noor Al-Shorouk Hospital - Leading Healthcare Provider in Cairo" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class={`font-sans ${lang === 'ar' ? 'font-arabic' : ''}`}>
+    <header class="fixed w-full bg-primary/95 backdrop-blur-sm text-white z-50">
+      <nav class="container mx-auto px-4 py-4">
+        <div class="flex justify-between items-center">
+          <a href={`/${lang}`} class="text-2xl font-bold">Noor Al-Shorouk Hospital</a>
+          <div class="hidden md:flex space-x-8 items-center">
+            <a href="#about" class="hover:text-gray-200 transition">{t['nav.about']}</a>
+            <a href="#services" class="hover:text-gray-200 transition">{t['nav.services']}</a>
+            <a href="#specialties" class="hover:text-gray-200 transition">{t['nav.specialties']}</a>
+            <a href="#doctors" class="hover:text-gray-200 transition">{t['nav.doctors']}</a>
+            <a href="#contact" class="hover:text-gray-200 transition">{t['nav.contact']}</a>
+            <a href="tel:0226888860" class="bg-white text-primary px-4 py-2 rounded-md hover:bg-gray-100 transition">
+              {t['nav.emergency']}: 022-688-8860
+            </a>
+            <LanguageSelector lang={lang} />
+          </div>
+        </div>
+      </nav>
+    </header>
+    <slot />
+    <footer class="bg-gray-900 text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+          <div>
+            <h3 class="text-2xl font-bold mb-6">{t['footer.about']}</h3>
+            <p class="text-gray-300">{t['footer.about.description']}</p>
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold mb-6">{t['footer.contact']}</h3>
+            <div class="space-y-3 text-gray-300">
+              <p>{t['footer.address.line1']}</p>
+              <p>{t['footer.address.line2']}</p>
+              <p>{t['footer.phone']}: 0226888860</p>
+              <p>{t['footer.emergency']}: 01113444234</p>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold mb-6">{t['footer.hours']}</h3>
+            <div class="space-y-3 text-gray-300">
+              <p>{t['footer.hours.emergency']}</p>
+              <p>{t['footer.hours.outpatient']}</p>
+              <p>{t['footer.hours.pharmacy']}</p>
+              <p>{t['footer.hours.laboratory']}</p>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold mb-6">{t['footer.insurance']}</h3>
+            <p class="text-gray-300 mb-4">{t['footer.insurance.description']}</p>
+            <ul class="list-disc list-inside text-gray-300 space-y-2">
+              <li>Allianz Insurance</li>
+              <li>Next Care</li>
+              <li>MedNet</li>
+              <li>GlobeMed</li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-12 text-center border-t border-gray-800 pt-8">
+          <p class="text-gray-400">&copy; {new Date().getFullYear()} {t['footer.copyright']}</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

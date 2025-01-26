@@ -1,0 +1,263 @@
+
+    ---
+import Layout from '../../layouts/Layout.astro';
+import { languages, ui } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params;
+const t = ui[lang];
+
+const specializations = [
+  {
+    name: lang === 'ar' ? 'الجراحة العامة' : 'General Surgery',
+    description: lang === 'ar' ? 'تشمل استئصال الزائدة الدودية وعلاج الفتق' : 'Including appendectomy and hernia treatment',
+    icon: '🔪'
+  },
+  {
+    name: lang === 'ar' ? 'المسالك البولية' : 'Urology',
+    description: lang === 'ar' ? 'مركز متخصص لعلاج أمراض المسالك البولية' : 'Specialized center for urinary tract diseases',
+    icon: '🔬'
+  },
+  {
+    name: lang === 'ar' ? 'الأورام' : 'Oncology',
+    description: lang === 'ar' ? 'تشخيص وعلاج السرطان' : 'Cancer diagnosis and treatment',
+    icon: '🏥'
+  },
+  {
+    name: lang === 'ar' ? 'جراحة القلب' : 'Cardiac Surgery',
+    description: lang === 'ar' ? 'مجهز بأحدث أجهزة القسطرة من فيليبس' : 'Equipped with latest Philips catheter devices',
+    icon: '❤️'
+  },
+  {
+    name: lang === 'ar' ? 'جراحة المخ والأعصاب' : 'Neurosurgery',
+    description: lang === 'ar' ? 'علاج الحالات العصبية المعقدة' : 'Treatment of complex neurological conditions',
+    icon: '🧠'
+  },
+  {
+    name: lang === 'ar' ? 'النساء والتوليد' : 'Obstetrics',
+    description: lang === 'ar' ? 'رعاية شاملة للنساء الحوامل' : 'Comprehensive care for pregnant women',
+    icon: '👶'
+  }
+];
+
+const doctors = [
+  {
+    name: lang === 'ar' ? 'د. السيد زكي' : 'Dr. El-Sayed Zaki',
+    specialty: lang === 'ar' ? 'الطب الباطني' : 'Internal Medicine',
+    experience: lang === 'ar' ? '٢٥+ سنة' : '25+ years',
+    availability: lang === 'ar' ? 'الإثنين-الخميس' : 'Mon-Thu'
+  },
+  {
+    name: lang === 'ar' ? 'د. محمود نصار' : 'Dr. Mahmoud Nassar',
+    specialty: lang === 'ar' ? 'الجراحة العامة' : 'General Surgery',
+    experience: lang === 'ar' ? '٢٠+ سنة' : '20+ years',
+    availability: lang === 'ar' ? 'الأحد-الأربعاء' : 'Sun-Wed'
+  },
+  {
+    name: lang === 'ar' ? 'د. محمد رجب' : 'Dr. Mohamed Ragab',
+    specialty: lang === 'ar' ? 'المسالك البولية' : 'Urology',
+    experience: lang === 'ar' ? '١٥+ سنة' : '15+ years',
+    availability: lang === 'ar' ? 'الثلاثاء-السبت' : 'Tue-Sat'
+  },
+  {
+    name: lang === 'ar' ? 'د. سليمان المغربي' : 'Dr. Soliman El-Maghraby',
+    specialty: lang === 'ar' ? 'جراحة المخ والأعصاب' : 'Neurosurgery',
+    experience: lang === 'ar' ? '١٨+ سنة' : '18+ years',
+    availability: lang === 'ar' ? 'الإثنين-الجمعة' : 'Mon-Fri'
+  },
+  {
+    name: lang === 'ar' ? 'د. رحاب جمال' : 'Dr. Rehab Gamal',
+    specialty: lang === 'ar' ? 'طب الأطفال' : 'Pediatrics',
+    experience: lang === 'ar' ? '١٢+ سنة' : '12+ years',
+    availability: lang === 'ar' ? 'الأحد-الخميس' : 'Sun-Thu'
+  },
+  {
+    name: lang === 'ar' ? 'د. أحمد عصام رجب' : 'Dr. Ahmed Essam Ragab',
+    specialty: lang === 'ar' ? 'القلب والأوعية الدموية' : 'Cardiovascular',
+    experience: lang === 'ar' ? '٢٢+ سنة' : '22+ years',
+    availability: lang === 'ar' ? 'الأربعاء-الأحد' : 'Wed-Sun'
+  }
+];
+
+const specialties = lang === 'ar' ? [
+  'مركز جراحة العمود الفقري',
+  'وحدة الجراحة الروبوتية',
+  'مركز المسالك البولية',
+  'قسم الأورام',
+  'وحدة الكلى',
+  'مركز القلب',
+  'قسم الأعصاب',
+  'مركز العظام',
+  'قسم الأطفال',
+  'النساء والتوليد',
+  'وحدة العيون',
+  'عيادة الجلدية'
+] : [
+  'Spine Surgery Center',
+  'Robotic Surgery Unit',
+  'Urology Center',
+  'Oncology Department',
+  'Nephrology Unit',
+  'Cardiovascular Center',
+  'Neurology Department',
+  'Orthopedics Center',
+  'Pediatrics Department',
+  'Obstetrics & Gynecology',
+  'Ophthalmology Unit',
+  'Dermatology Clinic'
+];
+
+const stats = [
+  { number: '25+', label: t['stats.years'] },
+  { number: '45+', label: t['stats.doctors'] },
+  { number: '100K+', label: t['stats.patients'] },
+  { number: '24/7', label: t['stats.emergency'] },
+];
+---
+
+<Layout title={lang === 'ar' ? 'مستشفى نور الشروق' : 'Noor Al-Shorouk Hospital'} lang={lang}>
+  <main class="pt-16">
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-r from-primary to-secondary text-white min-h-[90vh] flex items-center">
+      <div class="absolute inset-0 bg-black/20"></div>
+      <div class="container mx-auto px-4 relative">
+        <div class="max-w-3xl mx-auto text-center">
+          <h1 class="text-5xl md:text-7xl font-bold mb-6 animate-slide-up">{t['hero.welcome']}</h1>
+          <p class="text-xl md:text-2xl mb-12 animate-slide-up" style="animation-delay: 200ms;">{t['hero.subtitle']}</p>
+          <div class="flex flex-col sm:flex-row justify-center gap-4 animate-slide-up" style="animation-delay: 400ms;">
+            <a href="#contact" class="group bg-white text-primary px-8 py-4 rounded-md hover:bg-gray-100 transition-all duration-300 text-lg font-semibold relative overflow-hidden">
+              <span class="relative z-10 group-hover:-translate-y-1 transition-transform duration-300 inline-block">{t['hero.book']}</span>
+              <div class="absolute inset-0 bg-accent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+            </a>
+            <a href="#services" class="group border-2 border-white px-8 py-4 rounded-md hover:bg-white/10 transition-all duration-300 text-lg font-semibold relative overflow-hidden">
+              <span class="relative z-10 group-hover:-translate-y-1 transition-transform duration-300 inline-block">{t['hero.services']}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-12 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {stats.map((stat, index) => (
+            <div class="text-center group" style={`animation-delay: ${index * 100}ms`}>
+              <div class="text-4xl md:text-5xl font-bold text-primary mb-2 group-hover:scale-110 transition-transform duration-300">{stat.number}</div>
+              <div class="text-gray-600">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 class="text-4xl font-bold mb-8 relative inline-block">
+            {t['about.title']}
+            <div class="absolute bottom-0 left-0 w-full h-1 bg-accent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+          </h2>
+          <p class="text-lg text-gray-600 mb-8">{t['about.description']}</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+            <div class="p-8 bg-gray-50 rounded-lg hover:shadow-xl transition-all duration-300 group hover:-translate-y-2">
+              <div class="text-4xl mb-4 text-accent group-hover:animate-float">🏥</div>
+              <h3 class="text-xl font-bold mb-2">{t['about.emergency']}</h3>
+              <p class="text-gray-600">{t['about.emergency.desc']}</p>
+            </div>
+            <div class="p-8 bg-gray-50 rounded-lg hover:shadow-xl transition-all duration-300 group hover:-translate-y-2">
+              <div class="text-4xl mb-4 text-accent group-hover:animate-float">⚕️</div>
+              <h3 class="text-xl font-bold mb-2">{t['about.equipment']}</h3>
+              <p class="text-gray-600">{t['about.equipment.desc']}</p>
+            </div>
+            <div class="p-8 bg-gray-50 rounded-lg hover:shadow-xl transition-all duration-300 group hover:-translate-y-2">
+              <div class="text-4xl mb-4 text-accent group-hover:animate-float">👨‍⚕️</div>
+              <h3 class="text-xl font-bold mb-2">{t['about.team']}</h3>
+              <p class="text-gray-600">{t['about.team.desc']}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12">{t['services.title']}</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {specializations.map(spec => (
+            <div class="bg-white p-8 rounded-lg shadow-md group hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+              <div class="text-4xl mb-4 group-hover:animate-float">{spec.icon}</div>
+              <h3 class="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">{spec.name}</h3>
+              <p class="text-gray-600">{spec.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Specialties Section -->
+    <section id="specialties" class="py-20">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12">{t['specialties.title']}</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {specialties.map(specialty => (
+            <div class="group bg-gray-50 p-6 rounded-lg text-center hover:bg-primary hover:shadow-xl transition-all duration-300 cursor-pointer">
+              <p class="font-semibold group-hover:text-white transition-colors">{specialty}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Doctors Section -->
+    <section id="doctors" class="py-20 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12">{t['doctors.title']}</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {doctors.map(doctor => (
+            <div class="bg-white p-8 rounded-lg shadow-md text-center group hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+              <div class="w-32 h-32 bg-gray-200 rounded-full mx-auto mb-6 overflow-hidden group-hover:ring-4 ring-accent transition-all"></div>
+              <h3 class="text-2xl font-bold mb-2 group-hover:text-primary transition-colors">{doctor.name}</h3>
+              <p class="text-accent font-semibold mb-2">{doctor.specialty}</p>
+              <p class="text-gray-600 mb-2">{doctor.experience} {t['doctors.experience']}</p>
+              <p class="text-sm text-gray-500">{t['doctors.available']}: {doctor.availability}</p>
+              <button class="mt-4 px-6 py-2 bg-primary text-white rounded-md hover:bg-accent transition-colors duration-300">
+                {t['doctors.book']}
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12">{t['contact.title']}</h2>
+        <div class="max-w-4xl mx-auto">
+          <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-8">
+              <div class="group">
+                <h3 class="text-2xl font-bold mb-6 group-hover:text-primary transition-colors">{t['contact.location']}</h3>
+                <div class="space-y-4 text-gray-600">
+                  <p class="group-hover:translate-x-2 transition-transform">{t['footer.address.line1']}</p>
+                  <p class="group-hover:translate-x-2 transition-transform" style="transition-delay: 100ms">{t['footer.address.line2']}</p>
+                </div>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold mb-6 group-hover:text-primary transition-colors">{t['contact.numbers']}</h3>
+                <div class="space-y-4">
+                  <p class="flex items-center text-gray-600 group">
+                    <span class="font-semibold w-24">{t['contact.main']}:</span>
+                    <a href="tel:0226888860" class="text-primary hover:text-accent transition-colors">0226888860</a>
+                  </p>
+                  <p class="flex items-center text-gray-600 group">
+                    <span class="font-semibold w-24">{t['contact.emergency']}:</span>
+                    <
